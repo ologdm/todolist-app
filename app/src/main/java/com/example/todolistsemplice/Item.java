@@ -42,7 +42,9 @@ public class Item implements Serializable {
     public void setStato(boolean stato) {
         this.stato = stato;
     }
-
+    public void seStato(boolean stato) {
+        this.stato = stato;
+    }
 
 }
 

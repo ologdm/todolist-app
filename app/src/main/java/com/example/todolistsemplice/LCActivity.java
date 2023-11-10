@@ -5,11 +5,12 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public abstract class LifecycleActivity extends AppCompatActivity  {
+// scrive su logcat quale funzione dell'activity sarà chiamata
+
+public abstract class LCActivity extends AppCompatActivity  {
 
 
-
-    public LifecycleActivity() {
+    public LCActivity() {
         System.out.println("xxx instantiate" + " " + this.getClass().getName());
     }
 

@@ -1,32 +1,38 @@
-package com.example.todolistsemplice;
-
+package com.example.todolistsemplice.main;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
-// MainActivity - serve per gestire l'interfaccia iniziale
 
-// ...abbiamo 2 tipologie di start activity->
-// ....1-startActivity
-// ....2-startActivityForResult
+import com.example.todolistsemplice.additem.AdditemActivity;
+import com.example.todolistsemplice.model.Item;
+import com.example.todolistsemplice.LCActivity;
+import com.example.todolistsemplice.R;
 
-public class MainActivity extends LifecycleActivity {
+import java.util.List;
 
-    // definizione codici uninvoci per le activity
+
+public class MainActivity extends LCActivity implements Contract.View {
+
+    // 1 def codici uninvoci
     private static final int ADD_ACTIVITY_REQUEST_CODE = 1;
     private static final int SET_ACTIVITY_REQUEST_CODE = 2;
+
+    // istanziamento view
+    RecyclerView todoRV;
+    Button buttonAddNew;
+
+    //Istanziamento presenter attrav interfaccia
+    Contract.Presenter presenter = new MainPresenter(this);
 
 
     // 3 ## IMPLEMENTAZIONE CLICK SU OGGETTO ##
     // lambda lo implemento qua perche devo poter accedere alle funzioni di activity
-
-    @SuppressWarnings("Convert2Lambda")
-    private Adapter.DimaListener myDimaListener = new Adapter.DimaListener() {
+    //@SuppressWarnings("Convert2Lambda")
+    private final Adapter.DimaListener myDimaListener = new Adapter.DimaListener() {
         @Override
         public void onClick(Item item) {
             Intent intent = new Intent(MainActivity.this, AdditemActivity.class);
@@ -43,19 +49,16 @@ public class MainActivity extends LifecycleActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // specifico la view che deve creare secondo le specifiche del
-        // layout indicato con tutti gli elementi presenti al suo interno
 
-        System.out.println("ciao");
-
-        RecyclerView todoRV = findViewById(R.id.recycleviewTodo);
+        // assegnazione view
+        todoRV = findViewById(R.id.recycleviewTodo);
         todoRV.setLayoutManager(new LinearLayoutManager(this));
         todoRV.setAdapter(myAdapter);
 
-        Button buttonAddNew = findViewById(R.id.buttonAddNew);
+        buttonAddNew = findViewById(R.id.buttonAddNew);
 
-        // OnClickListener = Callback
-        // public void
+
+        // setOnClickListener
         buttonAddNew.setOnClickListener((view) -> {
             Intent myIntent = new Intent(this, AdditemActivity.class);
             // funzione di Activity
@@ -63,10 +66,12 @@ public class MainActivity extends LifecycleActivity {
             startActivityForResult(myIntent, ADD_ACTIVITY_REQUEST_CODE);
         });
 
-
     }
 
-    // qua userò l'ACTIVITY_REQUEST_CODE>=0 per verificare se ho avuto risposta
+
+    // *** FUNZIONE DI RITORNO DA AddItemActivity ***
+
+    // ACTIVITY_REQUEST_CODE deve essere >= 0, per verificare se ho avuto risposta
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -77,16 +82,27 @@ public class MainActivity extends LifecycleActivity {
             myAdapter.addAndUpdate(testo, stato); // add() --> fa 1. aggiungi item all'array + 2. adapter.notifyDataSetChanged()
         }
 
-        // TODO  set item ritornato
+
+        // set item ritornato
         if (requestCode == SET_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
             // return elemento da AddActivity
             Item item = (Item) data.getSerializableExtra(AdditemActivity.EXTRA_ITEM);
             myAdapter.setAndUpdate(item.getTesto(), item.isStato(), item.getID());
 
         }
+    }
 
+
+    // TODO Interfaccia da implementare
+    @Override
+    public void UpdateUi(List<Item> list) {
 
     }
+
+    //
+
+
+
 
 
 }

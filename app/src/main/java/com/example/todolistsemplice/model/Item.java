@@ -1,4 +1,4 @@
-package com.example.todolistsemplice;
+package com.example.todolistsemplice.model;
 
 import java.io.Serializable;
 

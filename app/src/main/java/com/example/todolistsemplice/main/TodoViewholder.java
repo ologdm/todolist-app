@@ -1,4 +1,4 @@
-package com.example.todolistsemplice;
+package com.example.todolistsemplice.main;
 
 import android.view.View;
 

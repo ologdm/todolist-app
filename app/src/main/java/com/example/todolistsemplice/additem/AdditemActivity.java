@@ -1,4 +1,4 @@
-package com.example.todolistsemplice;
+package com.example.todolistsemplice.additem;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,7 +9,11 @@ import android.widget.EditText;
 
 import androidx.annotation.Nullable;
 
-public class AdditemActivity extends LifecycleActivity {
+import com.example.todolistsemplice.model.Item;
+import com.example.todolistsemplice.LCActivity;
+import com.example.todolistsemplice.R;
+
+public class AdditemActivity extends LCActivity {
     public static final String EXTRA_TESTO = "testo da aggiungere";
     public static final String EXTRA_STATO = "stato da agiungere";
     public static final String EXTRA_ID = "ID da agiungere";

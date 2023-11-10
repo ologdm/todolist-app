@@ -1,4 +1,4 @@
-package com.example.todolistsemplice;
+package com.example.todolistsemplice.main;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.todolistsemplice.model.Item;
+import com.example.todolistsemplice.R;
 
 import java.util.ArrayList;
 import java.util.List;

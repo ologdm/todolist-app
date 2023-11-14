@@ -29,20 +29,9 @@ public class Adapter extends RecyclerView.Adapter<TodoViewholder> {
 
 
     // costruttore
-    // settaggio Dimalistener
+    // settaggio Dimalistener per click Item
     public Adapter(DimaListener lambda) {
         this.myDimaListener = lambda;
-
-
-        // aggiungo elementi defaulf
-        itemList.add(new Item("hello1", false, 0));
-        itemList.add(new Item("hello2", false, 1));
-        itemList.add(new Item("hello3", false, 2));
-        itemList.add(new Item("hello4", false, 3));
-        itemList.add(new Item("hello5", false, 4));
-        itemList.add(new Item("hello6", false, 5));
-        itemList.add(new Item("hello7", false, 6));
-
     }
 
 

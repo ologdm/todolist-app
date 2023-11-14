@@ -1,6 +1,5 @@
 package com.example.todolistsemplice.main;
 
-// in questo caso non ho bisogno della ripository
 
 import com.example.todolistsemplice.model.Item;
 import com.example.todolistsemplice.model.Repository;
@@ -8,7 +7,7 @@ import com.example.todolistsemplice.model.Repository;
 import java.util.List;
 
 // *** su view devo avere metodi limitati
-// *** repository lo posso avere completo non setve interfaccia
+// *** repository lo posso avere completo non serve interfaccia
 
 
 @SuppressWarnings("unused")
@@ -24,8 +23,6 @@ public class MainPresenter implements Contract.Presenter {
     private Repository repository = Repository.getInstance();
 
     List<Item> itemList; // salvare lista in locale
-
-
 
 
 

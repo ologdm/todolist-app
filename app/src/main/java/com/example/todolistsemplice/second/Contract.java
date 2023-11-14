@@ -1,4 +1,14 @@
 package com.example.todolistsemplice.second;
 
-public class Contract {
+interface Contract {
+
+    interface View {
+        void saveActivityInput();
+    }
+
+    interface Presenter {
+        void returnDataOnCLick();
+    }
+
+
 }

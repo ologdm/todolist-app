@@ -31,13 +31,13 @@ public class MainActivity extends LCActivity implements Contract.View {
     Contract.Presenter presenter = new MainPresenter(this);
 
 
+
     // ## IMPLEMENTAZIONE CLICK SU OGGETTO ##
 
     // costruttore Adapter
     // salvo l'istanza su Adapter.DimaListener tramite costruttore
     // * (item) -> passo l'item attuale su onBind
     Adapter adapter = new Adapter(item -> {
-
         // ****  1°PARTE MVP ****
         // item: da adapter -> presenter -> sotto in activity
         presenter.onItemClick(item);
@@ -97,15 +97,14 @@ public class MainActivity extends LCActivity implements Contract.View {
     @Override
     public void startSecondActivity(Item item) {
 
-        Intent myIntent = new Intent(this, SecondActivity.class);
+        Intent intent = new Intent(this, SecondActivity.class);
 
         // addbutton
         if (item == null) {
-            startActivityForResult(myIntent, ADD_ITEM_REQUEST_CODE);
+            startActivityForResult(intent, ADD_ITEM_REQUEST_CODE);
         }
         // itemclick
         else {
-            Intent intent = new Intent(this, SecondActivity.class);
             intent.putExtra(SecondActivity.EXTRA_ITEM, item);
             startActivityForResult(intent, SET_ITEM_REQUEST_CODE);
         }

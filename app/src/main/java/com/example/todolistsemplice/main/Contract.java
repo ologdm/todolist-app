@@ -10,7 +10,7 @@ import java.util.List;
 
 
 @SuppressWarnings("unused")
-public interface Contract {
+interface Contract {
 
 
     // ****  1°PARTE MVP ****

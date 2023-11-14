@@ -14,7 +14,7 @@
             android:supportsRtl="true"
             android:theme="@style/Theme.TodoListSemplice"
             tools:targetApi="31">
-        <activity android:name=".additem.AdditemActivity" />
+        <activity android:name=".second.SecondActivity" />
         <activity
                 android:name=".main.MainActivity"
                 android:exported="true">

@@ -1,11 +1,11 @@
 package com.example.todolistsemplice;
-
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-// scrive su logcat quale funzione dell'activity sarà chiamata
+
+// Scrive su Logcat -> quale funzione dell'activity sarà chiamata
 
 public abstract class LCActivity extends AppCompatActivity  {
 

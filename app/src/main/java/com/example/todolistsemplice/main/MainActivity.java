@@ -1,4 +1,5 @@
 package com.example.todolistsemplice.main;
+
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -7,7 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
-import com.example.todolistsemplice.additem.AdditemActivity;
+import com.example.todolistsemplice.second.SecondActivity;
 import com.example.todolistsemplice.model.Item;
 import com.example.todolistsemplice.LCActivity;
 import com.example.todolistsemplice.R;
@@ -17,32 +18,30 @@ import java.util.List;
 
 public class MainActivity extends LCActivity implements Contract.View {
 
-    // 1 def codici uninvoci
-    private static final int ADD_ACTIVITY_REQUEST_CODE = 1;
-    private static final int SET_ACTIVITY_REQUEST_CODE = 2;
+    // 1 def code uninvoci
+    private static final int ADD_ITEM_REQUEST_CODE = 1;
+    private static final int SET_ITEM_REQUEST_CODE = 2;
 
-    // istanziamento view
-    RecyclerView todoRV;
+    // dichiarazione view
+    RecyclerView todolistRV;
     Button buttonAddNew;
 
-    //Istanziamento presenter attrav interfaccia
+    // istanzio presenter (view),
+    // il repository (singleton) si istanzia su presenter
     Contract.Presenter presenter = new MainPresenter(this);
 
 
-    // 3 ## IMPLEMENTAZIONE CLICK SU OGGETTO ##
-    // lambda lo implemento qua perche devo poter accedere alle funzioni di activity
-    //@SuppressWarnings("Convert2Lambda")
-    private final Adapter.DimaListener myDimaListener = new Adapter.DimaListener() {
-        @Override
-        public void onClick(Item item) {
-            Intent intent = new Intent(MainActivity.this, AdditemActivity.class);
-            intent.putExtra(AdditemActivity.EXTRA_ITEM,item); // passare `item`, implemento Serializable in Item
-            startActivityForResult(intent, 2); // voglio anche il return
-        }
-    };
+    // ## IMPLEMENTAZIONE CLICK SU OGGETTO ##
 
-    // Tramite il costruttore di Adapter salvo l'istanza su Adapter.myItemClickListener
-    Adapter myAdapter = new Adapter(myDimaListener);
+    // costruttore Adapter
+    // salvo l'istanza su Adapter.DimaListener tramite costruttore
+    // * (item) -> passo l'item attuale su onBind
+    Adapter adapter = new Adapter(item -> {
+
+        // ****  1°PARTE MVP ****
+        // item: da adapter -> presenter -> sotto in activity
+        presenter.onItemClick(item);
+    });
 
 
     @Override
@@ -51,58 +50,75 @@ public class MainActivity extends LCActivity implements Contract.View {
         setContentView(R.layout.activity_main);
 
         // assegnazione view
-        todoRV = findViewById(R.id.recycleviewTodo);
-        todoRV.setLayoutManager(new LinearLayoutManager(this));
-        todoRV.setAdapter(myAdapter);
+        todolistRV = findViewById(R.id.recycleviewTodo);
+        todolistRV.setLayoutManager(new LinearLayoutManager(this));
+
+        todolistRV.setAdapter(adapter); // collego adapter alla RV
 
         buttonAddNew = findViewById(R.id.buttonAddNew);
 
 
-        // setOnClickListener
+        // ****  1°PARTE MVP ****
+        // 1. chiamo metodo su presenter
+        // 2. implementazione metodo su activity
         buttonAddNew.setOnClickListener((view) -> {
-            Intent myIntent = new Intent(this, AdditemActivity.class);
-            // funzione di Activity
-            // -> gli passo l'intent e il codice univoco
-            startActivityForResult(myIntent, ADD_ACTIVITY_REQUEST_CODE);
+            presenter.onAddButtonClick();
         });
 
     }
 
 
-    // *** FUNZIONE DI RITORNO DA AddItemActivity ***
 
-    // ACTIVITY_REQUEST_CODE deve essere >= 0, per verificare se ho avuto risposta
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // add item ritornato
-        if (requestCode == ADD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            String testo = data.getStringExtra(AdditemActivity.EXTRA_TESTO);
-            boolean stato = data.getBooleanExtra(AdditemActivity.EXTRA_STATO, false);
-            myAdapter.addAndUpdate(testo, stato); // add() --> fa 1. aggiungi item all'array + 2. adapter.notifyDataSetChanged()
+
+        if (requestCode == ADD_ITEM_REQUEST_CODE && resultCode == RESULT_OK) {
+            // passa elemento a -> presenter -> repository
+            // non posso usare item perchè e incompleto
+            presenter.addItem(
+                data.getStringExtra(SecondActivity.EXTRA_TESTO),
+                data.getBooleanExtra(SecondActivity.EXTRA_STATO, false)
+            );
         }
 
-
-        // set item ritornato
-        if (requestCode == SET_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            // return elemento da AddActivity
-            Item item = (Item) data.getSerializableExtra(AdditemActivity.EXTRA_ITEM);
-            myAdapter.setAndUpdate(item.getTesto(), item.isStato(), item.getID());
-
+        if (requestCode == SET_ITEM_REQUEST_CODE && resultCode == RESULT_OK) {
+            Item item = (Item) data.getSerializableExtra(SecondActivity.EXTRA_ITEM);
+            presenter.setItem(item);
         }
+
+        // rimanda a updateUi + aggiorna Adapter con repository
+        presenter.loadData();
+
     }
 
 
-    // TODO Interfaccia da implementare
+    // *** 1 PARTE ***
     @Override
-    public void UpdateUi(List<Item> list) {
+    public void startSecondActivity(Item item) {
 
+        Intent myIntent = new Intent(this, SecondActivity.class);
+
+        // addbutton
+        if (item == null) {
+            startActivityForResult(myIntent, ADD_ITEM_REQUEST_CODE);
+        }
+        // itemclick
+        else {
+            Intent intent = new Intent(this, SecondActivity.class);
+            intent.putExtra(SecondActivity.EXTRA_ITEM, item);
+            startActivityForResult(intent, SET_ITEM_REQUEST_CODE);
+        }
     }
 
-    //
 
-
-
+    // **** 2 °PARTE MVP ****
+    // implementazione
+    // aggiornamento: adapter <- presenter <- repository
+    @Override
+    public void updateUi(List<Item> list) {
+        adapter.updateList(list);
+    }
 
 
 }

@@ -1,4 +1,4 @@
-package com.example.todolistsemplice.additem;
+package com.example.todolistsemplice.second;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,7 +13,14 @@ import com.example.todolistsemplice.model.Item;
 import com.example.todolistsemplice.LCActivity;
 import com.example.todolistsemplice.R;
 
-public class AdditemActivity extends LCActivity {
+// SecondActivity
+// -> AddItem
+// -> SetItem
+
+// MVP *** 2° PARTE TODO - unificare tutto in item
+
+
+public class SecondActivity extends LCActivity {
     public static final String EXTRA_TESTO = "testo da aggiungere";
     public static final String EXTRA_STATO = "stato da agiungere";
     public static final String EXTRA_ID = "ID da agiungere";

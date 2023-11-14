@@ -24,8 +24,8 @@ public class Adapter extends RecyclerView.Adapter<TodoViewholder> {
     // Adapter e Viewholder sono una static inner class di RecycleView, per quello c'e il punto
     // Adapter <accetta solo Tipo Viewholder>
 
-    // 1. list
-    List<Item> listAdapter = new ArrayList<>();
+
+    List<Item> itemList = new ArrayList<>();
 
 
     // costruttore
@@ -33,54 +33,22 @@ public class Adapter extends RecyclerView.Adapter<TodoViewholder> {
     public Adapter(DimaListener lambda) {
         this.myDimaListener = lambda;
 
-        listAdapter.add(new Item("hello1", false, 0));
-        listAdapter.add(new Item("hello2", false, 1));
-        listAdapter.add(new Item("hello3", false, 2));
-        listAdapter.add(new Item("hello4", false, 4));
-    }
 
+        // aggiungo elementi defaulf
+        itemList.add(new Item("hello1", false, 0));
+        itemList.add(new Item("hello2", false, 1));
+        itemList.add(new Item("hello3", false, 2));
+        itemList.add(new Item("hello4", false, 3));
+        itemList.add(new Item("hello5", false, 4));
+        itemList.add(new Item("hello6", false, 5));
+        itemList.add(new Item("hello7", false, 6));
 
-    // 2. Add nuovoElemento e aggiungi ID che dovro passare su MainActivity.onActivityResults();
-    public void addAndUpdate(String testo, boolean stato) {
-        //creazione ID - paragono
-        int idMax = 0;
-        for (int i = 0; i < listAdapter.size(); i++) {
-            Item item = listAdapter.get(i);
-            if (item.getID() > idMax) {
-                idMax = item.getID();
-            }
-        }
-
-        Item item = new Item(testo, stato, idMax + 1);
-        listAdapter.add(item);
-        listAdapter.add(item);
-        listAdapter.add(item);
-        listAdapter.add(item);
-
-        notifyDataSetChanged();
-    }
-
-    // input (testo, stato, id)
-    public void setAndUpdate(String testo, boolean stato, int ID) {
-        // nuovi elementi aggiunti di defalult
-
-        for (int i = 0; i < listAdapter.size(); i++) {
-            Item item = listAdapter.get(i); // prendo elementi dalla mia lista per check
-            if (ID == item.getID()) {   // se ID nuovo elemento == ID gia esistente in lista
-                //allora sovrascrivi testo e stato del item esistente
-                item.setText(testo);
-                item.setStato(stato);
-                // id non devo aggiornarlo
-                //listAdapter. ????;
-            }
-        }
-        // aggiungi l'elemento inserito sopra n volte
-        notifyDataSetChanged();
     }
 
 
     // 3.1
-    @NonNull @Override
+    @NonNull
+    @Override
     public TodoViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //standar inflater - trasformatore da xml a view
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -94,7 +62,7 @@ public class Adapter extends RecyclerView.Adapter<TodoViewholder> {
     @Override
     public void onBindViewHolder(@NonNull TodoViewholder holder, int position) {
         // 1
-        Item item = listAdapter.get(position);
+        Item item = itemList.get(position);
         // 2
         TextView textView = holder.itemView.findViewById(R.id.etTodoViewholder);
         CheckBox checkBox = holder.itemView.findViewById(R.id.ckboxTodoViewholder);
@@ -134,7 +102,7 @@ public class Adapter extends RecyclerView.Adapter<TodoViewholder> {
 
     @Override
     public int getItemCount() {
-        return listAdapter.size();
+        return itemList.size();
     }
 
 
@@ -149,7 +117,17 @@ public class Adapter extends RecyclerView.Adapter<TodoViewholder> {
     final private DimaListener myDimaListener;
     // 3. istanzio con il costruttore, ma potrei creare un setListener anche
 
-    
+
+
+
+    // **** 2°PARTE MVP ****
+
+    // prendo i dati da updateUi <- presenter <- repository
+    public void updateList(List<Item> itemList) {
+        this.itemList = itemList;
+        notifyDataSetChanged(); // metodo di adapter
+    }
+
 
 }
 

@@ -4,7 +4,9 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 
@@ -29,7 +31,6 @@ public class MainActivity extends LCActivity implements Contract.View {
     // istanzio presenter (view),
     // il repository (singleton) si istanzia su presenter
     Contract.Presenter presenter = new MainPresenter(this);
-
 
 
     // ## IMPLEMENTAZIONE CLICK SU OGGETTO ##
@@ -65,8 +66,36 @@ public class MainActivity extends LCActivity implements Contract.View {
             presenter.onAddButtonClick();
         });
 
-    }
 
+
+
+        // CREO SHARED PREFERENCES
+        // SharedPreferences -> è una interfaccia di context
+        // posso usare 'getSharedPreferences()' oppure 'getPreferences()'
+        SharedPreferences sharedPref = getSharedPreferences("myPref", Context.MODE_PRIVATE);
+        // SharedPreferences sharedPref1 = getPreferences(Context.MODE_PRIVATE);
+        // creo editor
+        SharedPreferences.Editor editor = sharedPref.edit();
+        //editor.putInt("1", 20);
+
+        // salvare i dati sul disco
+        // 1
+        editor.apply();
+        /* 2 ***** solo in Kotlin ******+
+        editor.apply { SharedPreferences.Editor!:this
+            putString(indice, dato)
+            putInt ( , )
+            putBoolean ( , )
+            apply(); //-> finish and write data
+         }
+        esempio in Kotlin -> https://www.youtube.com/watch?v=wtpRp2IpCSo
+        */
+
+        // prendere i dati da disco
+        editor.commit();
+
+
+    }
 
 
     @Override
@@ -118,6 +147,9 @@ public class MainActivity extends LCActivity implements Contract.View {
     public void updateUi(List<Item> list) {
         adapter.updateList(list);
     }
+
+
+
 
 
 }

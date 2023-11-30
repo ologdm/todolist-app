@@ -93,6 +93,7 @@ public class MainActivity extends LCActivity implements Contract.View {
 
         // prendere i dati da disco
         editor.commit();
+        //ok
 
 
     }

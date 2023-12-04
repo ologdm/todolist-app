@@ -19,18 +19,20 @@ public class MainPresenter implements Contract.Presenter {
     // ATTRIBUTI
 
     private Contract.View view;
+    Context context;
 
     // ** 3 PARTE **
     //istanzio singleton repository
-    private Repository repository = Repository.getInstance();
+    private Repository repository;
 
     List<Item> itemList; // salvare lista in locale
 
 
-
     // COSTRUTTORE
-    public MainPresenter(Contract.View v) {
+    public MainPresenter(Contract.View v, Context context) {
         this.view = v;
+        this.context = context;
+        repository = Repository.getInstance(context);
     }
 
 
@@ -82,7 +84,7 @@ public class MainPresenter implements Contract.Presenter {
     }
 
 
-    private void updatePresenterList (){
+    private void updatePresenterList() {
         itemList = repository.getItemList();
     }
 

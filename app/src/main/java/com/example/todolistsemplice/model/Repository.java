@@ -1,7 +1,6 @@
 package com.example.todolistsemplice.model;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,39 +15,50 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class Repository {
 
-    // ***** SINGLETON *****
     // 1 attributo
     private static Repository instance;
-    // 2 costruttore
-    private Repository() {
+
+    private Context context;
+    MyLocalData myLocalData;
+    // = new MyLocalData(context, )
+
+
+    private List<Item> itemList = new ArrayList<>();
+
+
+    // 2 costruttore -> usato solo nel metodo getIstance
+    private Repository(Context context) {
+        this.context = context;
+        myLocalData = new MyLocalData(context);
     }
+
+
     // 3 getIstanza
-    public static Repository getInstance() {
+    public static Repository getInstance(Context context) {
         if (instance == null) {
-            instance = new Repository();
+            // context.getApplicationContext() -> prendo il Context app e non activity
+            instance = new Repository(context);
         }
         return instance;
     }
 
 
-
-    // *** MODEL ***
-
-    // -> Punto salvataggio dati
-    private List<Item> itemList = new ArrayList<>();
-
-
-    // get + set dati
+    //set + get dati
     public List<Item> getItemList() {
-        return itemList;
+        List<Item> listcheck = myLocalData.loadFromLocal();
+        if (listcheck ==null) { // TODO il codice si decve fermare qua
+            return itemList;
+        }
+        itemList = listcheck; // TODO il codice arriva qua
+        return listcheck;
     }
+
+
     public void setItemList(List<Item> itemList) {
-        this.itemList = itemList;
+        // ***SHARED PREFERENCES*** -> salvo in locale
+        myLocalData.saveInLocal(itemList);
     }
 
-
-    // **** 2 °PARTE MVP ****
-    // sposto da Adapter su Repository:
 
     // Add nuovoElemento e aggiungi ID
     // non posso passargli (item),
@@ -64,7 +74,9 @@ public class Repository {
         }
         Item item = new Item(testo, stato, idMax + 1);
         itemList.add(item);
+        setItemList(itemList);
     }
+
     // aggiorno testo e stato se ID nuovo == ID esistente
     public void setItem(Item tem) {
         String testo = tem.getTesto();
@@ -82,6 +94,8 @@ public class Repository {
                 // id non devo aggiornarlo
             }
         }
+        setItemList(itemList);
     }
+
 
 }

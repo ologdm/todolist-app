@@ -14,11 +14,14 @@ import com.example.todolistsemplice.second.SecondActivity;
 import com.example.todolistsemplice.model.Item;
 import com.example.todolistsemplice.LCActivity;
 import com.example.todolistsemplice.R;
+import com.google.gson.Gson;
 
 import java.util.List;
 
 
 public class MainActivity extends LCActivity implements Contract.View {
+
+
 
     // 1 def code uninvoci
     private static final int ADD_ITEM_REQUEST_CODE = 1;
@@ -30,7 +33,7 @@ public class MainActivity extends LCActivity implements Contract.View {
 
     // istanzio presenter (view),
     // il repository (singleton) si istanzia su presenter
-    Contract.Presenter presenter = new MainPresenter(this);
+    Contract.Presenter presenter;
 
 
     // ## IMPLEMENTAZIONE CLICK SU OGGETTO ##
@@ -50,6 +53,8 @@ public class MainActivity extends LCActivity implements Contract.View {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        presenter = new MainPresenter(this,this);
+
         // assegnazione view
         todolistRV = findViewById(R.id.recycleviewTodo);
         todolistRV.setLayoutManager(new LinearLayoutManager(this));
@@ -67,34 +72,27 @@ public class MainActivity extends LCActivity implements Contract.View {
         });
 
 
+        // CREO SHARED PREFERENCES - eugi
+/*
+        SharedPreferences prefs = getSharedPreferences("myPref", Context.MODE_PRIVATE);
 
+        Gson gson = new Gson();
+        gson.toJson();
+        gson.fromJson();
 
-        // CREO SHARED PREFERENCES
-        // SharedPreferences -> è una interfaccia di context
-        // posso usare 'getSharedPreferences()' oppure 'getPreferences()'
-        SharedPreferences sharedPref = getSharedPreferences("myPref", Context.MODE_PRIVATE);
-        // SharedPreferences sharedPref1 = getPreferences(Context.MODE_PRIVATE);
-        // creo editor
-        SharedPreferences.Editor editor = sharedPref.edit();
-        //editor.putInt("1", 20);
+        prefs.edit()
+            .putString(PREFS_LIST, "fs") // serializza la lista, trasformo classe in json
+            .apply();
 
-        // salvare i dati sul disco
-        // 1
-        editor.apply();
-        /* 2 ***** solo in Kotlin ******+
-        editor.apply { SharedPreferences.Editor!:this
-            putString(indice, dato)
-            putInt ( , )
-            putBoolean ( , )
-            apply(); //-> finish and write data
-         }
-        esempio in Kotlin -> https://www.youtube.com/watch?v=wtpRp2IpCSo
-        */
+        String json = prefs.getString(PREFS_LIST, null);
+        // deserializza da json a lista
 
-        // prendere i dati da disco
-        editor.commit();
-        //ok
+        //leggo la lista
+        prefs.edit().commit();
 
+ */
+
+        presenter.loadData();
 
     }
 
@@ -117,9 +115,7 @@ public class MainActivity extends LCActivity implements Contract.View {
             presenter.setItem(item);
         }
 
-        // rimanda a updateUi + aggiorna Adapter con repository
-        presenter.loadData();
-
+        presenter.loadData(); // rimanda a updateUi + aggiorna Adapter con repository
     }
 
 
@@ -148,9 +144,6 @@ public class MainActivity extends LCActivity implements Contract.View {
     public void updateUi(List<Item> list) {
         adapter.updateList(list);
     }
-
-
-
 
 
 }

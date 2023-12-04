@@ -22,7 +22,6 @@ import java.util.List;
 public class MainActivity extends LCActivity implements Contract.View {
 
 
-
     // 1 def code uninvoci
     private static final int ADD_ITEM_REQUEST_CODE = 1;
     private static final int SET_ITEM_REQUEST_CODE = 2;
@@ -48,11 +47,14 @@ public class MainActivity extends LCActivity implements Contract.View {
     });
 
 
+    // * Context viene inizializzato su onCreate(),
+    // quindi i metodi che lo usano devono essere dentro onCreate()
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // **Context** - spostato su onCreate
         presenter = new MainPresenter(this,this);
 
         // assegnazione view
@@ -72,28 +74,7 @@ public class MainActivity extends LCActivity implements Contract.View {
         });
 
 
-        // CREO SHARED PREFERENCES - eugi
-/*
-        SharedPreferences prefs = getSharedPreferences("myPref", Context.MODE_PRIVATE);
-
-        Gson gson = new Gson();
-        gson.toJson();
-        gson.fromJson();
-
-        prefs.edit()
-            .putString(PREFS_LIST, "fs") // serializza la lista, trasformo classe in json
-            .apply();
-
-        String json = prefs.getString(PREFS_LIST, null);
-        // deserializza da json a lista
-
-        //leggo la lista
-        prefs.edit().commit();
-
- */
-
         presenter.loadData();
-
     }
 
 

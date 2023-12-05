@@ -98,7 +98,7 @@ public class MainActivity extends LCActivity implements Contract.View {
 
         presenter.loadData(); // rimanda a updateUi + aggiorna Adapter con repository
     }
-
+    //
 
     // *** 1 PARTE ***
     @Override

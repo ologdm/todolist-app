@@ -9,7 +9,7 @@ import android.widget.EditText;
 
 import androidx.annotation.Nullable;
 
-import com.example.todolistsemplice.model.Item;
+import com.example.todolistsemplice.repository.Item;
 import com.example.todolistsemplice.LCActivity;
 import com.example.todolistsemplice.R;
 
@@ -17,15 +17,13 @@ import com.example.todolistsemplice.R;
 // -> AddItem
 // -> SetItem
 
-// MVP *** 2° PARTE TODO - unificare tutto in item
-
 
 public class SecondActivity extends LCActivity implements Contract.View {
 
     // 1 def code uninvoci
     public static final String EXTRA_TESTO = "testo da aggiungere";
     public static final String EXTRA_STATO = "stato da agiungere";
-    public static final String EXTRA_ID = "ID da agiungere";
+    //public static final String EXTRA_ID = "ID da agiungere"; - non serve
 
     public static final String EXTRA_ITEM = "item da visualizzare";
 
@@ -47,14 +45,14 @@ public class SecondActivity extends LCActivity implements Contract.View {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_element);
+        setContentView(R.layout.activity_add_element_old);
 
 
         // 5 assegnazione view
-        editText = findViewById(R.id.etTestoAdditemActivity);
-        checkBox = findViewById(R.id.ckboxAdditemActivity);
-        buttonSave = findViewById(R.id.buttonSaveAdditemActivity);
-        buttonBack = findViewById(R.id.buttonBackAdditemActivity);
+        editText = findViewById(R.id.etTesto);
+        checkBox = findViewById(R.id.ckBox);
+        buttonSave = findViewById(R.id.buttonSave);
+        buttonBack = findViewById(R.id.buttonBack);
 
         // 6 button click
         buttonBack.setOnClickListener((v) -> {

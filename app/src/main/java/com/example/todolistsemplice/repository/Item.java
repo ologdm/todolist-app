@@ -1,4 +1,4 @@
-package com.example.todolistsemplice.model;
+package com.example.todolistsemplice.repository;
 
 import java.io.Serializable;
 
@@ -46,5 +46,13 @@ public class Item implements Serializable {
         this.stato = stato;
     }
 
+    @Override
+    public String toString() {
+        return "Item{" +
+            "testo='" + testo + '\'' +
+            ", stato=" + stato +
+            ", ID=" + ID +
+            '}';
+    }
 }
 

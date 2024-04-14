@@ -1,49 +1,34 @@
-package com.example.todolistsemplice.main;
+package com.example.todolistsemplice.mainactivity;
 
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.Button;
 
-import com.example.todolistsemplice.second.SecondActivity;
-import com.example.todolistsemplice.model.Item;
+import com.example.todolistsemplice.mainactivity.mainfragment.MainFragment;
 import com.example.todolistsemplice.LCActivity;
 import com.example.todolistsemplice.R;
-import com.google.gson.Gson;
-
-import java.util.List;
 
 
-public class MainActivity extends LCActivity implements Contract.View {
+public class MainActivity extends LCActivity {
 
     // 1 def code uninvoci
-    private static final int ADD_ITEM_REQUEST_CODE = 1;
-    private static final int SET_ITEM_REQUEST_CODE = 2;
-
-    // dichiarazione view
-    RecyclerView todolistRV;
-    Button buttonAddNew;
-
-    // istanzio presenter (view),
-    // il repository (singleton) si istanzia su presenter
-    Contract.Presenter presenter;
+    //private static final int ADD_ITEM_REQUEST_CODE = 1;
+    //private static final int SET_ITEM_REQUEST_CODE = 2;
 
 
-    // ## IMPLEMENTAZIONE CLICK SU OGGETTO ##
+    //RecyclerView recyclerView;
+    //Button buttonAdd;
+    //Contract.Presenter presenter;
 
-    // costruttore Adapter
-    // salvo l'istanza su Adapter.DimaListener tramite costruttore
-    // * (item) -> passo l'item attuale su onBind
+/*
     Adapter adapter = new Adapter(item -> {
-        // ****  1°PARTE MVP ****
         // item: da adapter -> presenter -> sotto in activity
         presenter.onItemClick(item);
     });
+
+ */
+
+    Navigator navigator = new Navigator();
 
 
     // * Context viene inizializzato su onCreate(),
@@ -51,31 +36,62 @@ public class MainActivity extends LCActivity implements Contract.View {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
+        setContentView(R.layout.activity_main);  // OK
+        //setContentView(R.layout.activity_main_old);
+
+
+        // ####################################
+        // FRAGMENT
+        navigator.replace(this, new MainFragment());
+
+
+        // TODO NAVIGAZIONE PULSANTI
+
+
+        // ####################################
+
+
+
+
+
+
+
+
+
+
+
+        /*
         // **Context** - spostato su onCreate
         presenter = new MainPresenter(this,this);
 
+
         // assegnazione view
-        todolistRV = findViewById(R.id.recycleviewTodo);
-        todolistRV.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView = findViewById(R.id.recycleviewTodo);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        todolistRV.setAdapter(adapter); // collego adapter alla RV
+        recyclerView.setAdapter(adapter); // collego adapter alla RV
 
-        buttonAddNew = findViewById(R.id.buttonAddNew);
+        buttonAdd = findViewById(R.id.buttonAddNew);
 
 
-        // ****  1°PARTE MVP ****
         // 1. chiamo metodo su presenter
         // 2. implementazione metodo su activity
-        buttonAddNew.setOnClickListener((view) -> {
+        buttonAdd.setOnClickListener((view) -> {
             presenter.onAddButtonClick();
         });
 
         presenter.loadData();
+         */
+
+
     }
 
 
+
+
+
+    /*
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -96,9 +112,22 @@ public class MainActivity extends LCActivity implements Contract.View {
 
         presenter.loadData(); // rimanda a updateUi + aggiorna Adapter con repository
     }
-    //
 
-    // *** 1 PARTE ***
+     */
+
+
+    /*
+    // implementazione
+    // aggiornamento: adapter <- presenter <- repository
+    @Override
+    public void updateUi(List<Item> list) {
+        adapter.updateList(list);
+    }
+
+     */
+
+
+    /*
     @Override
     public void startSecondActivity(Item item) {
 
@@ -115,14 +144,6 @@ public class MainActivity extends LCActivity implements Contract.View {
         }
     }
 
-
-    // **** 2 °PARTE MVP ****
-    // implementazione
-    // aggiornamento: adapter <- presenter <- repository
-    @Override
-    public void updateUi(List<Item> list) {
-        adapter.updateList(list);
-    }
-
+     */
 
 }

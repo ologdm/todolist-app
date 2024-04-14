@@ -1,4 +1,4 @@
-package com.example.todolistsemplice.model;
+package com.example.todolistsemplice.repository;
 
 import android.content.Context;
 
@@ -64,7 +64,7 @@ public class Repository {
     // non posso passargli (item),
     // dato che è  ancora un elemento da costruire
     public void addItem(String testo, boolean stato) {
-        //creazione ID - paragono
+        //creazione ID di testa - paragono con i vecchi
         int idMax = 0;
         for (int i = 0; i < itemList.size(); i++) {
             Item item = itemList.get(i);
@@ -72,16 +72,19 @@ public class Repository {
                 idMax = item.getID();
             }
         }
+        // assegnazione nuovo id all'elemento in testa
         Item item = new Item(testo, stato, idMax + 1);
         itemList.add(item);
         setItemList(itemList);
     }
 
+
+
     // aggiorno testo e stato se ID nuovo == ID esistente
-    public void setItem(Item tem) {
-        String testo = tem.getTesto();
-        boolean stato = tem.isStato();
-        int ID = tem.getID();
+    public void setItem(Item item) {
+        String testo = item.getTesto();
+        boolean stato = item.isStato();
+        int ID = item.getID();
 
         for (int i = 0; i < itemList.size(); i++) {
             // prendo elementi dalla mia lista per check
@@ -96,6 +99,8 @@ public class Repository {
         }
         setItemList(itemList);
     }
+
+
 
 
 }

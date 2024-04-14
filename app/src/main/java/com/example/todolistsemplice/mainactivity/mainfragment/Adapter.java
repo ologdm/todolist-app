@@ -1,16 +1,15 @@
-package com.example.todolistsemplice.main;
+package com.example.todolistsemplice.mainactivity.mainfragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.todolistsemplice.model.Item;
+import com.example.todolistsemplice.repository.Item;
 import com.example.todolistsemplice.R;
 
 import java.util.ArrayList;
@@ -23,6 +22,7 @@ import java.util.List;
 public class Adapter extends RecyclerView.Adapter<TodoViewholder> {
     // Adapter e Viewholder sono una static inner class di RecycleView, per quello c'e il punto
     // Adapter <accetta solo Tipo Viewholder>
+
 
 
     List<Item> itemList = new ArrayList<>();
@@ -57,14 +57,22 @@ public class Adapter extends RecyclerView.Adapter<TodoViewholder> {
         CheckBox checkBox = holder.itemView.findViewById(R.id.ckboxTodoViewholder);
 
 
-        // 3 callback per click su cambio stato di checkBoxSuRV
-        // Listener specifico che si usa anche per switch, radiobutton
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton view, boolean isChecked) {
+        // TODO 3. SetListener per click su cambio stato di checkBoxSuRV ( anche Switch,RadioButton)
+        // Listener che cambia stato solo su RV, non salva in repository
+        checkBox.setOnCheckedChangeListener((view, isChecked) -> {
+            if (isChecked != item.isStato()) {
+                // setStato Item
                 item.setStato(isChecked);
-                // l'item gia lavora sul riferimento di codice necessario per la modifica
+
+                // !!!!!!!!! salva item // -> metodo Adapter
+                salvaStatoCheckbox(item);
             }
+
+
+            // setOnCheckedChangeListene -ha un bug, lo fa per ogni elemento, quindi e da segnare
+            // if (isChecked != item.isStato()) cos
+            // il programma va in loop e crasha perche troppe volte sì aggiorna la Ui
+
         });
 
 
@@ -77,15 +85,11 @@ public class Adapter extends RecyclerView.Adapter<TodoViewholder> {
 
 
         // 5  """"IMPLEMENTAZIONE CLICK SU OGGETTO""""""
-        // funzione base
-        // implemento l'interfaccia funzionale e gli passo nel corpo {la mia callback}
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                myDimaListener.onClick(item);
-            }
-        });
+        // holder -> contenitore view, contiene la itemView
+        // 1) myDimaListener.onClick() - def. su Activity (serve intent o arguments)
+        // 2) OnClickListener implementata invece qua, verrà passata
+        // alla funzione .onTouchEvent() della view di button
+        holder.itemView.setOnClickListener(v -> myDimaListener.onClick(item));
     }
 
 
@@ -95,7 +99,7 @@ public class Adapter extends RecyclerView.Adapter<TodoViewholder> {
     }
 
 
-    // ## IMPLEMENTAZIONE CLICK SU OGGETTO ##
+    // ###  IMPLEMENTAZIONE CLICK SU OGGETTO  ###
 
     // 1. Interfaccia NomeListener
     public interface DimaListener {
@@ -108,14 +112,37 @@ public class Adapter extends RecyclerView.Adapter<TodoViewholder> {
 
 
 
-
-    // **** 2°PARTE MVP ****
-
+    // #####  MVP   ######
     // prendo i dati da updateUi <- presenter <- repository
     public void updateList(List<Item> itemList) {
         this.itemList = itemList;
         notifyDataSetChanged(); // metodo di adapter
     }
+
+
+
+
+    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // CALLBACK PER CHECKBOX SU MAIN
+    public interface CheckboxListener {
+        void esegui(Item item);
+    }
+
+    private CheckboxListener checkboxListener;
+
+    public void setCheckboxListener(CheckboxListener listener){
+        checkboxListener = listener;
+    }
+
+
+    //funzione, solo per mascherare la callback
+    private void salvaStatoCheckbox(Item item){
+        checkboxListener.esegui(item);
+    }
+
+
+
+
 
 
 }

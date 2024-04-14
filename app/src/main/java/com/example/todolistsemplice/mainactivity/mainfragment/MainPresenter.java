@@ -1,12 +1,10 @@
-package com.example.todolistsemplice.main;
+package com.example.todolistsemplice.mainactivity.mainfragment;
 
 
 import android.content.Context;
 
-import com.example.todolistsemplice.model.Item;
-import com.example.todolistsemplice.model.Repository;
-
-import java.util.List;
+import com.example.todolistsemplice.repository.Item;
+import com.example.todolistsemplice.repository.Repository;
 
 // *** su view devo avere metodi limitati
 // *** repository lo posso avere completo non serve interfaccia
@@ -16,16 +14,12 @@ import java.util.List;
 public class MainPresenter implements Contract.Presenter {
 
 
-    // ATTRIBUTI
-
     private Contract.View view;
     Context context;
 
-    // ** 3 PARTE **
-    //istanzio singleton repository
     private Repository repository;
 
-    List<Item> itemList; // salvare lista in locale
+    // List<Item> itemList; - non serve
 
 
     // COSTRUTTORE
@@ -36,9 +30,7 @@ public class MainPresenter implements Contract.Presenter {
     }
 
 
-    // ****  1°PARTE MVP ****
-    // sposto codice: da onCreate -> Presenter -> sotto in Activity
-
+    // CLICK PER DETAILS
     @Override
     public void onAddButtonClick() {
         view.startSecondActivity(null); // gli passo 'null', dato che non ho item in ingresso
@@ -50,43 +42,34 @@ public class MainPresenter implements Contract.Presenter {
     }
 
 
-    // **** 2°PARTE MVP ****
 
-    // metodi singolo item
-    // add e set: spostato da adapter -> repository
-
+    // Add repos and update view
     @Override
     public void addItem(String testo, boolean stato) {
         // passo dati a repository
         repository.addItem(testo, stato);
         // aggiorno listaPresenter
-        updatePresenterList();
+        updateUiList();
     }
 
 
+    // Set repos and update view
     @Override
     public void setItem(Item item) {
+        //salvo dati in repository
         repository.setItem(item);
-        // aggiorno listaPresenter
-        updatePresenterList();
+        // pesco dati da repository e updateUi
+        updateUiList();
     }
 
 
-    // ** 3 PARTE **  REPOSITORY
 
-    // 1. UpdateUi from Repository
     @Override
-    public void loadData() {
-        // 1.get dati da repository (cache)
-        List<Item> list = repository.getItemList();
-        // 2.passo dati ad adapter per mostrarli
-        view.updateUi(list);
+    public void updateUiList() {
+        view.updateUi(repository.getItemList());
     }
 
 
-    private void updatePresenterList() {
-        itemList = repository.getItemList();
-    }
 
 
 }

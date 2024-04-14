@@ -21,7 +21,6 @@ import java.util.List;
 
 public class MainActivity extends LCActivity implements Contract.View {
 
-
     // 1 def code uninvoci
     private static final int ADD_ITEM_REQUEST_CODE = 1;
     private static final int SET_ITEM_REQUEST_CODE = 2;
@@ -72,7 +71,6 @@ public class MainActivity extends LCActivity implements Contract.View {
         buttonAddNew.setOnClickListener((view) -> {
             presenter.onAddButtonClick();
         });
-
 
         presenter.loadData();
     }

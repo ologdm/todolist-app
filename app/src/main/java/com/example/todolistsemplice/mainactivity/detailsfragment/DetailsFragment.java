@@ -18,7 +18,7 @@ import com.example.todolistsemplice.repository.Item;
 
 public class DetailsFragment extends Fragment {
 
-
+    // fff
     public static final String EXTRA_TESTO = "testo da aggiungere";
     public static final String EXTRA_STATO = "stato da agiungere";
     public static final String EXTRA_ITEM = "item da visualizzare";

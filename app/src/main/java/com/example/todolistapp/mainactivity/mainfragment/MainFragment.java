@@ -1,4 +1,4 @@
-package com.example.todolistsemplice.mainactivity.mainfragment;
+package com.example.todolistapp.mainactivity.mainfragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,10 +13,10 @@ import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.todolistsemplice.R;
-import com.example.todolistsemplice.mainactivity.Navigator;
-import com.example.todolistsemplice.mainactivity.detailsfragment.DetailsFragment;
-import com.example.todolistsemplice.repository.Item;
+import com.example.todolistapp.R;
+import com.example.todolistapp.mainactivity.Navigator;
+import com.example.todolistapp.mainactivity.detailsfragment.DetailsFragment;
+import com.example.todolistapp.repository.Item;
 
 
 import java.util.List;

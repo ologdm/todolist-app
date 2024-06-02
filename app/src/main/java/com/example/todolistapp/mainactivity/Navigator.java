@@ -1,10 +1,10 @@
-package com.example.todolistsemplice.mainactivity;
+package com.example.todolistapp.mainactivity;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.todolistsemplice.R;
+import com.example.todolistapp.R;
 
 
 public class Navigator {

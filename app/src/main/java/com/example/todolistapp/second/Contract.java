@@ -1,4 +1,4 @@
-package com.example.todolistsemplice.second;
+package com.example.todolistapp.second;
 
 interface Contract {
 

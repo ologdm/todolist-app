@@ -1,12 +1,12 @@
-package com.example.todolistsemplice.mainactivity;
+package com.example.todolistapp.mainactivity;
 
 import androidx.annotation.Nullable;
 
 import android.os.Bundle;
 
-import com.example.todolistsemplice.mainactivity.mainfragment.MainFragment;
-import com.example.todolistsemplice.LCActivity;
-import com.example.todolistsemplice.R;
+import com.example.todolistapp.mainactivity.mainfragment.MainFragment;
+import com.example.todolistapp.LCActivity;
+import com.example.todolistapp.R;
 
 
 public class MainActivity extends LCActivity {

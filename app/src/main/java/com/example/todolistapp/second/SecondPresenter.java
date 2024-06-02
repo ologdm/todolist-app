@@ -1,4 +1,4 @@
-package com.example.todolistsemplice.second;
+package com.example.todolistapp.second;
 
 public class SecondPresenter implements Contract.Presenter {
 

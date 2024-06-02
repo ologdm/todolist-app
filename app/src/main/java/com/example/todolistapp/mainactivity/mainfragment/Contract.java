@@ -1,6 +1,6 @@
-package com.example.todolistsemplice.mainactivity.mainfragment;
+package com.example.todolistapp.mainactivity.mainfragment;
 
-import com.example.todolistsemplice.repository.Item;
+import com.example.todolistapp.repository.Item;
 
 import java.util.List;
 

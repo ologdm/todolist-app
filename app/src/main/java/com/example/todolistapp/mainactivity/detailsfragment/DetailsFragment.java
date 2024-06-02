@@ -1,4 +1,4 @@
-package com.example.todolistsemplice.mainactivity.detailsfragment;
+package com.example.todolistapp.mainactivity.detailsfragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,8 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.todolistsemplice.R;
-import com.example.todolistsemplice.repository.Item;
+import com.example.todolistapp.R;
+import com.example.todolistapp.repository.Item;
 
 
 public class DetailsFragment extends Fragment {

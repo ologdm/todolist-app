@@ -1,10 +1,10 @@
-package com.example.todolistsemplice.mainactivity.mainfragment;
+package com.example.todolistapp.mainactivity.mainfragment;
 
 
 import android.content.Context;
 
-import com.example.todolistsemplice.repository.Item;
-import com.example.todolistsemplice.repository.Repository;
+import com.example.todolistapp.repository.Item;
+import com.example.todolistapp.repository.Repository;
 
 // *** su view devo avere metodi limitati
 // *** repository lo posso avere completo non serve interfaccia

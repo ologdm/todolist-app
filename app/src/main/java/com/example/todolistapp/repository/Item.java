@@ -1,4 +1,4 @@
-package com.example.todolistsemplice.repository;
+package com.example.todolistapp.repository;
 
 import java.io.Serializable;
 

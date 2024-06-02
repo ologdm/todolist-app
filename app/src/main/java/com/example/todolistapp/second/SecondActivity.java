@@ -1,4 +1,4 @@
-package com.example.todolistsemplice.second;
+package com.example.todolistapp.second;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,9 +9,9 @@ import android.widget.EditText;
 
 import androidx.annotation.Nullable;
 
-import com.example.todolistsemplice.repository.Item;
-import com.example.todolistsemplice.LCActivity;
-import com.example.todolistsemplice.R;
+import com.example.todolistapp.repository.Item;
+import com.example.todolistapp.LCActivity;
+import com.example.todolistapp.R;
 
 // SecondActivity
 // -> AddItem

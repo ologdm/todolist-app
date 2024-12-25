@@ -14,9 +14,9 @@
             android:supportsRtl="true"
             android:theme="@style/Theme.TodolistApp"
             tools:targetApi="31">
-        <activity android:name=".second.SecondActivity" />
+        <activity android:name=".ui.second.SecondActivity" />
         <activity
-                android:name=".mainactivity.MainActivity"
+                android:name=".ui.mainactivity.MainActivity"
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

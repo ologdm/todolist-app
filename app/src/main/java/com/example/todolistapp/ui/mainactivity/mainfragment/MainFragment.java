@@ -1,4 +1,4 @@
-package com.example.todolistapp.mainactivity.mainfragment;
+package com.example.todolistapp.ui.mainactivity.mainfragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todolistapp.R;
-import com.example.todolistapp.mainactivity.Navigator;
-import com.example.todolistapp.mainactivity.detailsfragment.DetailsFragment;
-import com.example.todolistapp.repository.Item;
+import com.example.todolistapp.ui.mainactivity.Navigator;
+import com.example.todolistapp.ui.mainactivity.detailsfragment.DetailsFragment;
+import com.example.todolistapp.data.TodoItem;
 
 
 import java.util.List;
@@ -30,72 +30,53 @@ import java.util.List;
 
 public class MainFragment extends Fragment implements Contract.View {
 
-
     final public static int INVALID_ID = -1;
 
     // ************+!!!!!!!!!
     // -> non decvo cacharla, crasha perche non ho activity ancora nel fragment
     //FragmentActivity frActivity = requireActivity();
-
-
-    // DICHIARAZIONE - OK
     RecyclerView recyclerView;
     Button buttonAdd;
     Navigator navigator = new Navigator();
-
     Contract.Presenter presenter;
 
-
-    // CLICK ITEM - OK
     Adapter adapter = new Adapter(item -> {
         presenter.onItemClick(item);
     });
 
 
-    // 1. CREAZIONE VIEW - OK
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
-    // 2. LOGICA
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-        // 2.1
         presenter = new MainPresenter(this, getContext());
 
-
-        // 2.2 - Assegnazione
         recyclerView = view.findViewById(R.id.RVFragment);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerView.setAdapter(adapter);
         buttonAdd = view.findViewById(R.id.buttonAdd);
 
-
-        // 2.3 Add - OK
         buttonAdd.setOnClickListener(view1 -> {
             presenter.onAddButtonClick();
         });
 
 
-        // 2.6 - Salva stato ChecBbox (modificato da Adapter RV)
         adapter.setCheckboxListener(new Adapter.CheckboxListener() {
             @Override
-            public void esegui(Item item) {
+            public void esegui(TodoItem item) {
                 presenter.setItem(item);
             }
         });
 
 
-        // 2.4 Aggiorna Adapter da Repository all'inizio
         presenter.updateUiList();
-
-
-        // 2.5
         getDataFromDetails();
 
 
@@ -107,17 +88,14 @@ public class MainFragment extends Fragment implements Contract.View {
 
 
     // CONTRACT METHODS
-
-    // 1° METODO OK
     @Override
-    public void updateUi(List<Item> list) {
+    public void updateUi(List<TodoItem> list) {
         adapter.updateList(list);
     }
 
 
-    // 2° METODO OK
     @Override
-    public void startSecondActivity(Item item) {
+    public void startSecondActivity(TodoItem item) {
         if (item == null) {
             // creo Fragment vuoto
             DetailsFragment detailsFragment = DetailsFragment.create(null);
@@ -128,8 +106,6 @@ public class MainFragment extends Fragment implements Contract.View {
             navigator.backstackPush(requireActivity(), detailsFragment);
         }
     }
-    // ####################
-
 
 
     // FragmentResult
@@ -152,7 +128,7 @@ public class MainFragment extends Fragment implements Contract.View {
                         if (id == INVALID_ID) {
                             presenter.addItem(testo, stato);
                         } else {
-                            presenter.setItem(new Item(testo, stato, id));
+                            presenter.setItem(new TodoItem(testo, stato, id));
                         }
                     }
                 });

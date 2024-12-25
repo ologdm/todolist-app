@@ -1,39 +1,30 @@
-package com.example.todolistapp.repository;
+package com.example.todolistapp.data;
 
 import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.List;
 
-// deve contenere la lista degli elementi -> arraylist<Item> todoItems;
-// metodo da usare -> repository.getTodoItems
-
-// REPOSITORY
-// ADD, CANC, MOD simile a
-
 
 @SuppressWarnings("unused")
 public class Repository {
 
-    // 1 attributo
     private static Repository instance;
 
     private Context context;
-    MyLocalData myLocalData;
+    DataSource dataSource;
     // = new MyLocalData(context, )
 
 
-    private List<Item> itemList = new ArrayList<>();
+    private List<TodoItem> itemList = new ArrayList<>();
 
 
-    // 2 costruttore -> usato solo nel metodo getIstance
     private Repository(Context context) {
         this.context = context;
-        myLocalData = new MyLocalData(context);
+        dataSource = new DataSource(context);
     }
 
 
-    // 3 getIstanza
     public static Repository getInstance(Context context) {
         if (instance == null) {
             // context.getApplicationContext() -> prendo il Context app e non activity
@@ -43,9 +34,8 @@ public class Repository {
     }
 
 
-    //set + get dati
-    public List<Item> getItemList() {
-        List<Item> listcheck = myLocalData.loadFromLocal();
+    public List<TodoItem> getItemList() {
+        List<TodoItem> listcheck = dataSource.loadFromLocal();
         if (listcheck ==null) { // TODO il codice si decve fermare qua
             return itemList;
         }
@@ -54,9 +44,9 @@ public class Repository {
     }
 
 
-    public void setItemList(List<Item> itemList) {
+    public void setItemList(List<TodoItem> itemList) {
         // ***SHARED PREFERENCES*** -> salvo in locale
-        myLocalData.saveInLocal(itemList);
+        dataSource.saveInLocal(itemList);
     }
 
 
@@ -67,13 +57,13 @@ public class Repository {
         //creazione ID di testa - paragono con i vecchi
         int idMax = 0;
         for (int i = 0; i < itemList.size(); i++) {
-            Item item = itemList.get(i);
+            TodoItem item = itemList.get(i);
             if (item.getID() > idMax) {
                 idMax = item.getID();
             }
         }
         // assegnazione nuovo id all'elemento in testa
-        Item item = new Item(testo, stato, idMax + 1);
+        TodoItem item = new TodoItem(testo, stato, idMax + 1);
         itemList.add(item);
         setItemList(itemList);
     }
@@ -81,14 +71,14 @@ public class Repository {
 
 
     // aggiorno testo e stato se ID nuovo == ID esistente
-    public void setItem(Item item) {
+    public void setItem(TodoItem item) {
         String testo = item.getTesto();
         boolean stato = item.isStato();
         int ID = item.getID();
 
         for (int i = 0; i < itemList.size(); i++) {
             // prendo elementi dalla mia lista per check
-            Item itemToUpdate = itemList.get(i);
+            TodoItem itemToUpdate = itemList.get(i);
             // se ID nuovo == ID esistente
             if (ID == itemToUpdate.getID()) {
                 // sovrascrivi testo e stato item esistente

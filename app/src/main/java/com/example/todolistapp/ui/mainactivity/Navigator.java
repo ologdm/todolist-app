@@ -1,4 +1,4 @@
-package com.example.todolistapp.mainactivity;
+package com.example.todolistapp.ui.mainactivity;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;

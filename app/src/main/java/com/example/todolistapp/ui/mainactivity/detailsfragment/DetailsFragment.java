@@ -1,4 +1,4 @@
-package com.example.todolistapp.mainactivity.detailsfragment;
+package com.example.todolistapp.ui.mainactivity.detailsfragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.todolistapp.R;
-import com.example.todolistapp.repository.Item;
+import com.example.todolistapp.data.TodoItem;
 
 
 public class DetailsFragment extends Fragment {
@@ -29,11 +29,11 @@ public class DetailsFragment extends Fragment {
     EditText editText;
     CheckBox checkBox;
 
-    private Item item = null;
+    private TodoItem item = null;
 
 
     //Factory - OK
-    public static DetailsFragment create(Item item) {
+    public static DetailsFragment create(TodoItem item) {
         DetailsFragment detailsFragment = new DetailsFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(EXTRA_ITEM, item);
@@ -70,7 +70,7 @@ public class DetailsFragment extends Fragment {
         // getArguments() non è mai nullo (def factory,  l'item puo essere nullo)
         // getSerializable() puo ritornare nullo
         // creo item solo se ho key
-        item = (Item) getArguments().getSerializable(EXTRA_ITEM);
+        item = (TodoItem) getArguments().getSerializable(EXTRA_ITEM);
         if (item != null) {
 
             editText.setText(item.getTesto());

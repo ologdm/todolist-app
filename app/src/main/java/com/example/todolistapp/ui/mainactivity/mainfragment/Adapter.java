@@ -1,4 +1,4 @@
-package com.example.todolistapp.mainactivity.mainfragment;
+package com.example.todolistapp.ui.mainactivity.mainfragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.todolistapp.repository.Item;
+import com.example.todolistapp.data.TodoItem;
 import com.example.todolistapp.R;
 
 import java.util.ArrayList;
@@ -24,18 +24,16 @@ public class Adapter extends RecyclerView.Adapter<TodoViewholder> {
     // Adapter <accetta solo Tipo Viewholder>
 
 
-
-    List<Item> itemList = new ArrayList<>();
+    List<TodoItem> itemList = new ArrayList<>();
 
 
     // costruttore
     // settaggio Dimalistener per click Item
-    public Adapter(DimaListener lambda) {
-        this.myDimaListener = lambda;
+    public Adapter(DimaListener listener) {
+        this.myDimaListener = listener;
     }
 
 
-    // 3.1
     @NonNull
     @Override
     public TodoViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -51,7 +49,7 @@ public class Adapter extends RecyclerView.Adapter<TodoViewholder> {
     @Override
     public void onBindViewHolder(@NonNull TodoViewholder holder, int position) {
         // 1
-        Item item = itemList.get(position);
+        TodoItem item = itemList.get(position);
         // 2
         TextView textView = holder.itemView.findViewById(R.id.etTodoViewholder);
         CheckBox checkBox = holder.itemView.findViewById(R.id.ckboxTodoViewholder);
@@ -100,49 +98,38 @@ public class Adapter extends RecyclerView.Adapter<TodoViewholder> {
 
 
     // ###  IMPLEMENTAZIONE CLICK SU OGGETTO  ###
-
-    // 1. Interfaccia NomeListener
     public interface DimaListener {
-        void onClick(Item item);
+        void onClick(TodoItem item);
     }
 
-    // 2. dove verrà salvata l'istanza
     final private DimaListener myDimaListener;
-    // 3. istanzio con il costruttore, ma potrei creare un setListener anche
-
 
 
     // #####  MVP   ######
     // prendo i dati da updateUi <- presenter <- repository
-    public void updateList(List<Item> itemList) {
+    public void updateList(List<TodoItem> itemList) {
         this.itemList = itemList;
-        notifyDataSetChanged(); // metodo di adapter
+        notifyDataSetChanged();
     }
-
-
 
 
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // CALLBACK PER CHECKBOX SU MAIN
     public interface CheckboxListener {
-        void esegui(Item item);
+        void esegui(TodoItem item);
     }
 
     private CheckboxListener checkboxListener;
 
-    public void setCheckboxListener(CheckboxListener listener){
+    public void setCheckboxListener(CheckboxListener listener) {
         checkboxListener = listener;
     }
 
 
     //funzione, solo per mascherare la callback
-    private void salvaStatoCheckbox(Item item){
+    private void salvaStatoCheckbox(TodoItem item) {
         checkboxListener.esegui(item);
     }
-
-
-
-
 
 
 }

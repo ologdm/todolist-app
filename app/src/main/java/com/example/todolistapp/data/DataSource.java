@@ -1,4 +1,4 @@
-package com.example.todolistapp.repository;
+package com.example.todolistapp.data;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -9,25 +9,20 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 
-// devo usare metodo salva elementi in repository
+
+public class DataSource {
+
+    private static final String PREFS_LIST = "key01";
 
 
-public class MyLocalData {
-
-    // chiave lista preferiti
-    private static final String PREFS_LIST = "chiaveLista01";
-
-
-    // attributi
 
     Context context; // tramite costruttore
     Gson gson = new Gson();
     SharedPreferences prefs;
-    // TODO conviene permettere la costruzione di SharedPreferences?
 
 
     // costruttore
-    MyLocalData(Context context) {
+    DataSource(Context context) {
         this.context = context;
         prefs = context.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
     }
@@ -35,16 +30,16 @@ public class MyLocalData {
 
     // FUNZIONI CONVERSIONE
     // 1. List -> Json
-    private String getJson(List<Item> list) {
+    private String getJson(List<TodoItem> list) {
         String stringJson = gson.toJson(list);
         return stringJson;
     }
 
     // 2. Json -> List
-    private List<Item> getListFromJson(String jsonString) {
-        Type listType = new TypeToken<List<Item>>() {
+    private List<TodoItem> getListFromJson(String jsonString) {
+        Type listType = new TypeToken<List<TodoItem>>() {
         }.getType();
-        List<Item> itemList = gson.fromJson(jsonString, listType);
+        List<TodoItem> itemList = gson.fromJson(jsonString, listType);
         return itemList;
     }
 
@@ -53,7 +48,7 @@ public class MyLocalData {
 
     // -> salvo in locale
     // ricevo lista, salvo su Shared
-    void saveInLocal(List<Item> itemList) {
+    void saveInLocal(List<TodoItem> itemList) {
         // conversione
         String jsonString = getJson(itemList);
         //salva
@@ -64,11 +59,11 @@ public class MyLocalData {
 
 
     // -> carico da locale
-    public List<Item> loadFromLocal() {
+    public List<TodoItem> loadFromLocal() {
         // ottieni Json da SharedPref
         String jsonString = prefs.getString(PREFS_LIST, null);
         // ottieni lista convertita
-        List<Item>itemList = getListFromJson(jsonString);
+        List<TodoItem>itemList = getListFromJson(jsonString);
         return itemList;
     }
 

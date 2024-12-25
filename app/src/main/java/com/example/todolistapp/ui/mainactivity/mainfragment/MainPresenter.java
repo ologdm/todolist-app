@@ -1,10 +1,10 @@
-package com.example.todolistapp.mainactivity.mainfragment;
+package com.example.todolistapp.ui.mainactivity.mainfragment;
 
 
 import android.content.Context;
 
-import com.example.todolistapp.repository.Item;
-import com.example.todolistapp.repository.Repository;
+import com.example.todolistapp.data.TodoItem;
+import com.example.todolistapp.data.Repository;
 
 // *** su view devo avere metodi limitati
 // *** repository lo posso avere completo non serve interfaccia
@@ -13,16 +13,11 @@ import com.example.todolistapp.repository.Repository;
 @SuppressWarnings("unused")
 public class MainPresenter implements Contract.Presenter {
 
-
     private Contract.View view;
     Context context;
-
-    private Repository repository;
-
-    // List<Item> itemList; - non serve
+    private final Repository repository;
 
 
-    // COSTRUTTORE
     public MainPresenter(Contract.View v, Context context) {
         this.view = v;
         this.context = context;
@@ -37,7 +32,7 @@ public class MainPresenter implements Contract.Presenter {
     }
 
     @Override
-    public void onItemClick(Item item) {  // gli passo l'item del adapter
+    public void onItemClick(TodoItem item) {  // gli passo l'item del adapter
         view.startSecondActivity(item);
     }
 
@@ -55,7 +50,7 @@ public class MainPresenter implements Contract.Presenter {
 
     // Set repos and update view
     @Override
-    public void setItem(Item item) {
+    public void setItem(TodoItem item) {
         //salvo dati in repository
         repository.setItem(item);
         // pesco dati da repository e updateUi

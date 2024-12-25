@@ -1,10 +1,10 @@
-package com.example.todolistapp.mainactivity;
+package com.example.todolistapp.ui.mainactivity;
 
 import androidx.annotation.Nullable;
 
 import android.os.Bundle;
 
-import com.example.todolistapp.mainactivity.mainfragment.MainFragment;
+import com.example.todolistapp.ui.mainactivity.mainfragment.MainFragment;
 import com.example.todolistapp.LCActivity;
 import com.example.todolistapp.R;
 
@@ -37,28 +37,13 @@ public class MainActivity extends LCActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);  // OK
+        setContentView(R.layout.activity_main);
         //setContentView(R.layout.activity_main_old);
 
-
-        // ####################################
-        // FRAGMENT
         navigator.replace(this, new MainFragment());
 
 
         // TODO NAVIGAZIONE PULSANTI
-
-
-        // ####################################
-
-
-
-
-
-
-
-
-
 
 
         /*

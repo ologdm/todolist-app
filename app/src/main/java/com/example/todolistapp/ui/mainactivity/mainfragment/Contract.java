@@ -1,6 +1,6 @@
-package com.example.todolistapp.mainactivity.mainfragment;
+package com.example.todolistapp.ui.mainactivity.mainfragment;
 
-import com.example.todolistapp.repository.Item;
+import com.example.todolistapp.data.TodoItem;
 
 import java.util.List;
 
@@ -12,9 +12,9 @@ public interface Contract {
 
     public interface View {
         // aggiorno lista adapter
-        void updateUi(List<Item> list);
+        void updateUi(List<TodoItem> list);
         // intent per second
-        void startSecondActivity(Item item);
+        void startSecondActivity(TodoItem item);
     }
 
 
@@ -23,12 +23,12 @@ public interface Contract {
 
         // due metodi per aprire SecondActivity
         void onAddButtonClick();
-        void onItemClick (Item item);
+        void onItemClick (TodoItem item);
 
 
         // due metodi per gestire elementi lista
         void addItem (String testo, boolean stato);
-        void setItem (Item item);
+        void setItem (TodoItem item);
 
 
         void updateUiList();

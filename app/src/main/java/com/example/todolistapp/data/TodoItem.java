@@ -1,14 +1,11 @@
-package com.example.todolistapp.repository;
+package com.example.todolistapp.data;
 
 import java.io.Serializable;
-
-// solo 2 elementi necessari, Testo e Check;
-// lo rendo `Serializable` per poterlo passare come Oggetto in Intent
 
 
 // FATTO
 @SuppressWarnings("unused")
-public class Item implements Serializable {
+public class TodoItem implements Serializable {
 
     private String testo;
     private boolean stato;
@@ -16,7 +13,7 @@ public class Item implements Serializable {
 
 
 
-    public Item(String testo, boolean stato, int id) {
+    public TodoItem(String testo, boolean stato, int id) {
         this.testo = testo;
         this.stato = stato;
         this.ID = id;

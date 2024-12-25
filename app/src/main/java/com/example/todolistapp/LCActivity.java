@@ -1,4 +1,5 @@
 package com.example.todolistapp;
+import android.app.Notification;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -16,6 +17,9 @@ public abstract class LCActivity extends AppCompatActivity  {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
+        
+
         super.onCreate(savedInstanceState);
         System.out.println("xxx onCreate" + " " + this.getClass().getName());
     }

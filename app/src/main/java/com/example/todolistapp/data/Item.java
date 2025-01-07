@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 // FATTO
 @SuppressWarnings("unused")
-public class TodoItem implements Serializable {
+public class Item implements Serializable {
 
     private String testo;
     private boolean stato;
@@ -13,7 +13,7 @@ public class TodoItem implements Serializable {
 
 
 
-    public TodoItem(String testo, boolean stato, int id) {
+    public Item(String testo, boolean stato, int id) {
         this.testo = testo;
         this.stato = stato;
         this.ID = id;

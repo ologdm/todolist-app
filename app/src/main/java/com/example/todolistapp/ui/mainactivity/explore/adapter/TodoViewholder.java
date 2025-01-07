@@ -1,4 +1,4 @@
-package com.example.todolistapp.ui.mainactivity.mainfragment;
+package com.example.todolistapp.ui.mainactivity.explore.adapter;
 
 import android.view.View;
 

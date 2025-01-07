@@ -10,10 +10,9 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 
-public class DataSource {
+public class DataSourceShared {
 
     private static final String PREFS_LIST = "key01";
-
 
 
     Context context; // tramite costruttore
@@ -22,7 +21,7 @@ public class DataSource {
 
 
     // costruttore
-    DataSource(Context context) {
+    DataSourceShared(Context context) {
         this.context = context;
         prefs = context.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
     }
@@ -30,16 +29,16 @@ public class DataSource {
 
     // FUNZIONI CONVERSIONE
     // 1. List -> Json
-    private String getJson(List<TodoItem> list) {
+    private String getJson(List<Item> list) {
         String stringJson = gson.toJson(list);
         return stringJson;
     }
 
     // 2. Json -> List
-    private List<TodoItem> getListFromJson(String jsonString) {
-        Type listType = new TypeToken<List<TodoItem>>() {
+    private List<Item> getListFromJson(String jsonString) {
+        Type listType = new TypeToken<List<Item>>() {
         }.getType();
-        List<TodoItem> itemList = gson.fromJson(jsonString, listType);
+        List<Item> itemList = gson.fromJson(jsonString, listType);
         return itemList;
     }
 
@@ -48,7 +47,7 @@ public class DataSource {
 
     // -> salvo in locale
     // ricevo lista, salvo su Shared
-    void saveInLocal(List<TodoItem> itemList) {
+    void saveInLocal(List<Item> itemList) {
         // conversione
         String jsonString = getJson(itemList);
         //salva
@@ -59,11 +58,11 @@ public class DataSource {
 
 
     // -> carico da locale
-    public List<TodoItem> loadFromLocal() {
+    public List<Item> loadFromLocal() {
         // ottieni Json da SharedPref
         String jsonString = prefs.getString(PREFS_LIST, null);
         // ottieni lista convertita
-        List<TodoItem>itemList = getListFromJson(jsonString);
+        List<Item>itemList = getListFromJson(jsonString);
         return itemList;
     }
 

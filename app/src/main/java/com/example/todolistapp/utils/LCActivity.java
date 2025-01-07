@@ -1,4 +1,4 @@
-package com.example.todolistapp;
+package com.example.todolistapp.utils;
 import android.app.Notification;
 import android.os.Bundle;
 

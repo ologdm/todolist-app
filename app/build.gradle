@@ -42,5 +42,8 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"  // specifico java
     annotationProcessor "androidx.room:room-compiler:$room_version" // specifico java
 
+    // viewmodel
+
+
 
 }

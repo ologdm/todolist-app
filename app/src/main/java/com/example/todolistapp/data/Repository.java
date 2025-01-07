@@ -8,23 +8,20 @@ import java.util.List;
 
 @SuppressWarnings("unused")
 public class Repository {
-
-    private static Repository instance;
-
     private Context context;
-    DataSource dataSource;
-    // = new MyLocalData(context, )
+    DataSourceShared dataSource;
 
-
-    private List<TodoItem> itemList = new ArrayList<>();
+    private List<Item> itemList = new ArrayList<>();
 
 
     private Repository(Context context) {
         this.context = context;
-        dataSource = new DataSource(context);
+        dataSource = new DataSourceShared(context);
     }
 
 
+    private static Repository instance;
+    // singleton
     public static Repository getInstance(Context context) {
         if (instance == null) {
             // context.getApplicationContext() -> prendo il Context app e non activity
@@ -34,60 +31,46 @@ public class Repository {
     }
 
 
-    public List<TodoItem> getItemList() {
-        List<TodoItem> listcheck = dataSource.loadFromLocal();
-        if (listcheck ==null) { // TODO il codice si decve fermare qua
+    public List<Item> getItemList() {
+        List<Item> listcheck = dataSource.loadFromLocal();
+        if (listcheck ==null) {
             return itemList;
         }
-        itemList = listcheck; // TODO il codice arriva qua
+        itemList = listcheck;
         return listcheck;
     }
 
 
-    public void setItemList(List<TodoItem> itemList) {
-        // ***SHARED PREFERENCES*** -> salvo in locale
-        dataSource.saveInLocal(itemList);
-    }
 
-
-    // Add nuovoElemento e aggiungi ID
-    // non posso passargli (item),
-    // dato che è  ancora un elemento da costruire
     public void addItem(String testo, boolean stato) {
-        //creazione ID di testa - paragono con i vecchi
+        //create new top ID - compare to old ones
         int idMax = 0;
         for (int i = 0; i < itemList.size(); i++) {
-            TodoItem item = itemList.get(i);
+            Item item = itemList.get(i);
             if (item.getID() > idMax) {
                 idMax = item.getID();
             }
         }
-        // assegnazione nuovo id all'elemento in testa
-        TodoItem item = new TodoItem(testo, stato, idMax + 1);
+        Item item = new Item(testo, stato, idMax + 1);
         itemList.add(item);
-        setItemList(itemList);
+        dataSource.saveInLocal(itemList);
     }
 
 
 
-    // aggiorno testo e stato se ID nuovo == ID esistente
-    public void setItem(TodoItem item) {
-        String testo = item.getTesto();
-        boolean stato = item.isStato();
-        int ID = item.getID();
+    public void setItem(Item item) {
+        String text = item.getTesto();
+        boolean state = item.isStato();
+        int id = item.getID();
 
         for (int i = 0; i < itemList.size(); i++) {
-            // prendo elementi dalla mia lista per check
-            TodoItem itemToUpdate = itemList.get(i);
-            // se ID nuovo == ID esistente
-            if (ID == itemToUpdate.getID()) {
-                // sovrascrivi testo e stato item esistente
-                itemToUpdate.setText(testo);
-                itemToUpdate.setStato(stato);
-                // id non devo aggiornarlo
+            Item itemToUpdate = itemList.get(i);
+            if (id == itemToUpdate.getID()) {
+                itemToUpdate.setText(text);
+                itemToUpdate.setStato(state);
             }
         }
-        setItemList(itemList);
+        dataSource.saveInLocal(itemList);
     }
 
 
